@@ -1,4 +1,5 @@
 from customtkinter import CTkEntry
+from datetime import datetime
 
 class Functions():
     def MeioTela(main, x: int, y: int) -> str:
@@ -52,5 +53,17 @@ class Functions():
     def mudar_foco(proximo_campo=None):
         proximo_campo.focus()   
 
-    
+    @staticmethod
+    def DataDeAgora() -> str:
+        # Converte a data de hoje no formato USA para o formato usado no Brasil
+        hoje = datetime.now()
+        dia = hoje.day if len(str(hoje.day)) > 1 else f'0{hoje.day}'
+        mes = hoje.month if len(str(hoje.month)) > 1 else f'0{hoje.month}'
+        DataDeHoje = f'{dia}/{mes}/{hoje.year}'
+
+        return DataDeHoje
+
+    def Mes() -> list:
+        meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun","Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+        return meses
            

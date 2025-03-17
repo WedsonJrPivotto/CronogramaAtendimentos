@@ -23,9 +23,9 @@ class root_login(ctk.CTkToplevel):
     self.Lbl_mes         = ctk.CTkLabel(master=self.Frm_login_principal, text='Mês :', font=('Arial', 18))
     self.Lbl_mes.place(x=77, y=145)
 
-    self.Ety_atendente = ctk.CTkEntry(master=self.Frm_login_principal, width=320, height=40,font=('Arial', 18),border_color='#414141', fg_color='#2B2B2B')
+    self.Ety_atendente = ctk.CTkOptionMenu(master=self.Frm_login_principal, width=320, height=40,font=('Arial', 18),values=Planilha.buscar_usuários(), fg_color='#414141', button_color='#414141', button_hover_color='#414141')
     self.Ety_atendente.place(x=140, y=80)
-    self.Ety_mes       = ctk.CTkEntry(master=self.Frm_login_principal, width=320, height=40,font=('Arial', 18),border_color='#414141', fg_color='#2B2B2B')
+    self.Ety_mes       = ctk.CTkOptionMenu(master=self.Frm_login_principal, width=320, height=40,font=('Arial', 18),values=Functions.Mes(), fg_color='#414141', button_color='#414141', button_hover_color='#414141')
     self.Ety_mes.place(x=140, y=140)
 
     self.Btt_entrar = ctk.CTkButton(master=self.Frm_login_principal, width=430, height=30, text='Entrar', font=('Arial', 17), command=self.act_Btt_entrar)
@@ -44,7 +44,7 @@ class root_login(ctk.CTkToplevel):
       try:
         Planilha.credenciais_data(self.v_atendente_login, self.v_mes_login)
       except PermissionError:
-        root_erro = root_permission_error()
+        root_erro = root_permission_error(index_error=1)
         self.wait_window(root_erro)
         self.erro_ocorreu = True
       except Exception as e:

@@ -35,7 +35,7 @@ class Planilha:
     wb = Planilha.cnx_data()
     sheet = wb['Planilha1']
     linha = 3
-    while sheet[f'A{linha}'].value is not None:
+    while sheet[f'A{linha}'].value is not None or sheet[f'B{linha}'].value is not None:
       linha += 1
 
     # Adicionar os valores na linha encontrada
@@ -46,3 +46,15 @@ class Planilha:
     sheet[f'E{linha}'] = desc
 
     wb.save('./data/Atendimentos.xlsx')
+
+  @staticmethod
+  def buscar_usuários():
+    caminho_backup = './data/backup/Atendimentos.xlsx'
+    wb = load_workbook(filename=caminho_backup)
+    lista_usuarios = []
+    sheet = wb['Planilha2']
+    linha = 1
+    while sheet[f'A{linha}'].value is not None:
+      lista_usuarios.append(str(sheet[f'A{linha}'].value))
+      linha += 1
+    return lista_usuarios

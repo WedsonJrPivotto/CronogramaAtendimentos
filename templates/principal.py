@@ -1,13 +1,17 @@
 import customtkinter as ctk
 from src.func import *
 from templates.login import *
+from templates.ERR.err_permission import *
 
 class root_principal(ctk.CTk):
   def __init__(self):
     super().__init__()
     self.title('Principal')
+    ctk.set_appearance_mode('dark')
     self.geometry(Functions.MeioTela(self, 1100, 600))
     self.resizable(False, False)
+
+    self.erro_aconteceu = False
 
     # Frames
     self.Frm_entrys  = ctk.CTkFrame(master=self, width=810, height=400).place(x=30, y=160)
@@ -70,28 +74,81 @@ class root_principal(ctk.CTk):
     self.wait_window(self.login)
     try:
       if self.login.confirma:
+        self.Ety_data.insert(0, Functions.DataDeAgora())
         self.mainloop()
     except AttributeError:
       self.destroy()
 
   def act_Btt_inclui(self):
     self.cliente = self.Ety_cliente.get()
+    if self.Ety_cliente.get() == '':
+      root_erro = root_permission_error(index_error=5)
+      self.wait_window(root_erro)
+      self.erro_aconteceu = True
+
     self.data    = self.Ety_data.get()
+    if len(self.Ety_data.get()) >= 10:
+      try: # Validações da data                                      mês de 31 dias                                                                                             mês de 30 dias                                                                        fevereiro                                                     Validação do ano
+        if not ((int(self.Ety_data.get()[0:2]) <= 31 and self.Ety_data.get()[3:5] in ['01','03','05','07','08','10','12']) or (int(self.Ety_data.get()[0:2]) <= 30 and self.Ety_data.get()[3:5] in ['04','06','09','11']) or (int(self.Ety_data.get()[0:2]) <= 29 and self.Ety_data.get()[3:5] == '02')) and (int(self.Ety_data.get()[6:10]) - int(self.Ety_data.get()[6:10]) == 0):
+          root_erro = root_permission_error(index_error=2)
+          self.wait_window(root_erro)
+          self.erro_aconteceu = True
+      except ValueError:
+        root_erro = root_permission_error(index_error=2)
+        self.wait_window(root_erro)
+        self.erro_aconteceu = True
+    else:
+      root_erro = root_permission_error(index_error=2)
+      self.wait_window(root_erro)
+      self.erro_aconteceu = True
+
     self.ini     = self.Ety_ini.get()
+    if len(self.Ety_ini.get()) >= 5:
+      try:
+        if not (int(self.Ety_ini.get()[0:2]) <= 23 and int(self.Ety_ini.get()[0:2]) >= 0 and int(self.Ety_ini.get()[3:5]) <= 59 and int(self.Ety_ini.get()[3:5]) >= 0):
+          root_erro = root_permission_error(index_error=3)
+          self.wait_window(root_erro)
+          self.erro_aconteceu = True
+      except ValueError:
+        root_erro = root_permission_error(index_error=3)
+        self.wait_window(root_erro)
+        self.erro_aconteceu = True
+    else:
+      root_erro = root_permission_error(index_error=3)
+      self.wait_window(root_erro)
+      self.erro_aconteceu = True
+
     self.fin     = self.Ety_fim.get()
+    if len(self.Ety_fim.get()) >= 5:
+      try:
+        if not (int(self.Ety_fim.get()[0:2]) <= 23 and int(self.Ety_fim.get()[0:2]) >= 0 and int(self.Ety_fim.get()[3:5]) <= 59 and int(self.Ety_fim.get()[3:5]) >= 0):
+          root_erro = root_permission_error(index_error=4)
+          self.wait_window(root_erro)
+          self.erro_aconteceu = True
+      except ValueError:
+        root_erro = root_permission_error(index_error=4)
+        self.wait_window(root_erro)
+        self.erro_aconteceu = True
+    else:
+      root_erro = root_permission_error(index_error=4)
+      self.wait_window(root_erro)
+      self.erro_aconteceu = True
+
     self.desc    = self.Ety_descri.get()
-    Planilha.add_atendimento_data(
-      cliente=self.cliente,
-      date= self.data,
-      hr_ini=self.ini,
-      hr_fin=self.fin,
-      desc=self.desc
-    )
-    self.act_Btt_limpar()
+    if not self.erro_aconteceu:
+      Planilha.add_atendimento_data(
+        cliente=self.cliente,
+        date= self.data[:10],
+        hr_ini=self.ini,
+        hr_fin=self.fin,
+        desc=self.desc
+      )
+      self.act_Btt_limpar()
 
   def act_Btt_limpar(self):
     self.Ety_cliente.delete(0, "end")
-    self.Ety_data.delete(0, "end")
+    self.Ety_data.delete(0,"end")
+    self.Ety_data.insert(0,Functions.DataDeAgora())
     self.Ety_ini.delete(0, "end")
     self.Ety_fim.delete(0, "end")
     self.Ety_descri.delete(0, "end")
@@ -99,7 +156,7 @@ class root_principal(ctk.CTk):
     self.Ety_cliente.focus()
 
   def act_Btt_troca(self):
-    self.login_troca = root_login()
+    self.login_troca = root_login()  
     self.wait_window(self.login_troca)
 
   def act_Btt_sair(self):
