@@ -3,6 +3,11 @@ from openpyxl.styles import Font
 import shutil
 import os
 
+class CredentialsError(Exception):
+  """Exceção personalizada para erros de credenciais."""
+  def __init__(self, mensagem="Erro nas credenciais fornecidas."):
+    self.mensagem = mensagem
+    super().__init__(self.mensagem)
 
 class Planilha:
   @staticmethod
@@ -18,17 +23,30 @@ class Planilha:
     return wb
 
   @staticmethod
-  def credenciais_data(nome:str, mes:str):
-    wb = Planilha.cnx_data()
-    sheet = wb['Planilha1']
-    sheet['A1'] = f"Atendente: {nome}"
-    sheet['D1'] = f"Mês: {mes}"
+  def credenciais_data(nome:str, mes:str, novo:bool = False):
+    if not nome == '':
+      wb = Planilha.cnx_data()
+      sheet = wb['Planilha1']
+      sheet['A1'] = f"Atendente: {nome}"
+      sheet['D1'] = f"Mês: {mes}"
 
-    fonte = Font(bold=True, underline='single')  # 'single' para sublinhado simples
-    sheet['A1'].font = fonte
-    sheet['D1'].font = fonte
+      fonte = Font(bold=True, underline='single') 
+      sheet['A1'].font = fonte
+      sheet['D1'].font = fonte
+
+      wb.save('./data/Atendimentos.xlsx')
+      if novo:
+        wb_bk = load_workbook('./data/backup/Atendimentos.xlsx')
+        sheet_usuarios = wb_bk['Planilha2']
+        linha = 1
+        while sheet_usuarios[f'A{linha}'].value is not None:
+          linha += 1
+        sheet_usuarios[f'A{linha}'] = nome
+        wb_bk.save('./data/backup/Atendimentos.xlsx')
+    else:
+      raise CredentialsError()
     
-    wb.save('./data/Atendimentos.xlsx')
+    
 
   @staticmethod
   def add_atendimento_data(cliente:str, date:str, hr_ini:str, hr_fin:str, desc:str):
@@ -51,7 +69,7 @@ class Planilha:
   def buscar_usuários():
     caminho_backup = './data/backup/Atendimentos.xlsx'
     wb = load_workbook(filename=caminho_backup)
-    lista_usuarios = []
+    lista_usuarios = ['']
     sheet = wb['Planilha2']
     linha = 1
     while sheet[f'A{linha}'].value is not None:

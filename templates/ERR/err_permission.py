@@ -26,6 +26,7 @@ class root_permission_error(ctk.CTkToplevel):
       case 3: self.err = ['Sintax_error','Hora inicial inválida!']
       case 4: self.err = ['Sintax_error','Hora final inválida!']
       case 5: self.err = ['Sintax_error','Cliente em branco!']
+      case 6: self.err = ['credentials_error', 'Selecione um usuário ou cadastre um']
       case _: self.err = ['Not_log','Erro não catalogado!']
     return self.err
  
