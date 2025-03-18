@@ -24,16 +24,14 @@ Você pode estar preenchendo esses campos com os respectivos valores referentes 
 [![made in][madein]][madein]
 [![python][python]][python]
 
-[![open][1]][1]
-[![email][2]][2]
-[![local][3]][3]
+[![open][open]][open]
+[![email][email]][email]
 
-[1]: https://custom-icon-badges.demolab.com/badge/-Open%20source-palegreen?style=for-the-badge&logoColor=black&logo=issue-opened
+[open]: https://custom-icon-badges.demolab.com/badge/-Open%20source-palegreen?style=for-the-badge&logoColor=black&logo=issue-opened
 
-[2]: https://custom-icon-badges.demolab.com/badge/-wedsonp.medrado@gmail.com-red?style=for-the-badge&logoColor=black&logo=mention&logoColor=white
+[email]: https://custom-icon-badges.demolab.com/badge/-wedsonp.medrado@gmail.com-red?style=for-the-badge&logoColor=black&logo=mention&logoColor=white
 
-[3]: https://custom-icon-badges.demolab.com/badge/PARA-BRA-palegreen?style=for-the-badge&logo=location&logoColor=white
 
 [python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
 
-[madein]:https://custom-icon-badges.demolab.com/badge/-Made%20in:%20-3670A0?style=for-the-badge
+[madein]:https://custom-icon-badges.demolab.com/badge/-made%20with:%20-3670A0?style=for-the-badge
