@@ -33,15 +33,15 @@ class root_principal(ctk.CTk):
     self.Lbl_descri.place(x=80, y=420)
 
     # Entrys
-    self.Ety_cliente = ctk.CTkEntry(master=self.Frm_entrys, width=710, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B'  )
+    self.Ety_cliente = ctk.CTkEntry(master=self.Frm_entrys, width=710, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B')
     self.Ety_cliente.place(x=80, y=220)
-    self.Ety_data    = ctk.CTkEntry(master=self.Frm_entrys, width=210, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B'  )
+    self.Ety_data    = ctk.CTkEntry(master=self.Frm_entrys, width=210, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B')
     self.Ety_data.place(x=80, y=340)
-    self.Ety_ini     = ctk.CTkEntry(master=self.Frm_entrys, width=200, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B'  )
+    self.Ety_ini     = ctk.CTkEntry(master=self.Frm_entrys, width=200, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B')
     self.Ety_ini.place(x=340, y=340)
-    self.Ety_fim     = ctk.CTkEntry(master=self.Frm_entrys, width=200, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B'  )
+    self.Ety_fim     = ctk.CTkEntry(master=self.Frm_entrys, width=200, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B')
     self.Ety_fim.place(x=590, y=340)
-    self.Ety_descri  = ctk.CTkEntry(master=self.Frm_entrys, width=710, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B'  )
+    self.Ety_descri  = ctk.CTkEntry(master=self.Frm_entrys, width=710, height=60, font=('Arial', 40),border_color='#414141', fg_color='#2B2B2B')
     self.Ety_descri.place(x=80, y=460)
 
     # Buttons
@@ -71,70 +71,92 @@ class root_principal(ctk.CTk):
     self.Btt_inclui.bind("<Return>", lambda event: self.Btt_inclui.invoke())
 
     self.login = root_login()
+    self.Ety_data.insert(0, Functions.DataDeAgora())
     self.wait_window(self.login)
     try:
-      if self.login.confirma:
-        self.Ety_data.insert(0, Functions.DataDeAgora())
+      if self.login.confirma:        
         self.mainloop()
     except AttributeError:
       self.destroy()
 
   def act_Btt_inclui(self):
     self.cliente = self.Ety_cliente.get()
-    if self.Ety_cliente.get() == '':
+
+    if self.Ety_cliente.get() == '': # Erro cliente em branco!
       root_erro = root_permission_error(index_error=5)
       self.wait_window(root_erro)
       self.erro_aconteceu = True
 
     self.data    = self.Ety_data.get()
-    if len(self.Ety_data.get()) >= 10:
+    if len(self.Ety_data.get()) >= 10: # Erro data inválida
       try: # Validações da data                                      mês de 31 dias                                                                                             mês de 30 dias                                                                        fevereiro                                                     Validação do ano
         if not ((int(self.Ety_data.get()[0:2]) <= 31 and self.Ety_data.get()[3:5] in ['01','03','05','07','08','10','12']) or (int(self.Ety_data.get()[0:2]) <= 30 and self.Ety_data.get()[3:5] in ['04','06','09','11']) or (int(self.Ety_data.get()[0:2]) <= 29 and self.Ety_data.get()[3:5] == '02')) and (int(self.Ety_data.get()[6:10]) - int(self.Ety_data.get()[6:10]) == 0):
           root_erro = root_permission_error(index_error=2)
           self.wait_window(root_erro)
           self.erro_aconteceu = True
+
       except ValueError:
         root_erro = root_permission_error(index_error=2)
         self.wait_window(root_erro)
         self.erro_aconteceu = True
+
     else:
       root_erro = root_permission_error(index_error=2)
       self.wait_window(root_erro)
       self.erro_aconteceu = True
 
     self.ini     = self.Ety_ini.get()
-    if len(self.Ety_ini.get()) >= 5:
+    if len(self.Ety_ini.get()) >= 5: # Erro hora ini inválida
       try:
         if not (int(self.Ety_ini.get()[0:2]) <= 23 and int(self.Ety_ini.get()[0:2]) >= 0 and int(self.Ety_ini.get()[3:5]) <= 59 and int(self.Ety_ini.get()[3:5]) >= 0):
           root_erro = root_permission_error(index_error=3)
           self.wait_window(root_erro)
           self.erro_aconteceu = True
+
       except ValueError:
         root_erro = root_permission_error(index_error=3)
         self.wait_window(root_erro)
         self.erro_aconteceu = True
+
     else:
       root_erro = root_permission_error(index_error=3)
       self.wait_window(root_erro)
       self.erro_aconteceu = True
 
+
     self.fin     = self.Ety_fim.get()
-    if len(self.Ety_fim.get()) >= 5:
+    if len(self.Ety_fim.get()) >= 5: # Erro hora fin inválida
       try:
         if not (int(self.Ety_fim.get()[0:2]) <= 23 and int(self.Ety_fim.get()[0:2]) >= 0 and int(self.Ety_fim.get()[3:5]) <= 59 and int(self.Ety_fim.get()[3:5]) >= 0):
           root_erro = root_permission_error(index_error=4)
           self.wait_window(root_erro)
           self.erro_aconteceu = True
+
       except ValueError:
         root_erro = root_permission_error(index_error=4)
         self.wait_window(root_erro)
         self.erro_aconteceu = True
+
     else:
       root_erro = root_permission_error(index_error=4)
       self.wait_window(root_erro)
       self.erro_aconteceu = True
+    try:
+      self.horaini_em_minutos = (int(self.ini[:2]) * 60) + (int(self.ini[3:]))
+      self.horafin_em_minutos = (int(self.fin[:2]) * 60) + (int(self.fin[3:]))
+      if self.horaini_em_minutos > self.horafin_em_minutos:
+        root_erro = root_permission_error(index_error=8)
+        self.wait_window(root_erro)
+        self.erro_aconteceu = True
+    except:
+      pass
 
     self.desc    = self.Ety_descri.get()
+    if self.Ety_descri.get() == '': # Erro descrição em branco!
+      root_erro = root_permission_error(index_error=7)
+      self.wait_window(root_erro)
+      self.erro_aconteceu = True
+
     if not self.erro_aconteceu:
       Planilha.add_atendimento_data(
         cliente=self.cliente,
